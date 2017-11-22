@@ -20,7 +20,7 @@ func Run(r io.Reader, thunk uint, timeout uint, transport *http.Transport) error
 	for scanner.Scan() {
 		url := scanner.Text()
 		if utilgo.IsURL(url) {
-			Log.Printf("benchmark %s", url)
+			Log.Print(url)
 			err := benchmark(url, thunk, timeout, transport)
 			if err != nil {
 				Log.Print(err)
