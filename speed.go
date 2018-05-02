@@ -20,7 +20,7 @@ func Run(r io.Reader, thunk uint, timeout uint, transport *http.Transport) error
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
 		url := scanner.Text()
-		if utilgo.IsURL(url) {
+		if utilgo.IsURL(url, true) {
 			Log.Print(url)
 			err := benchmark(url, thunk, timeout, transport)
 			if err != nil {
