@@ -9,7 +9,7 @@ import (
 	"github.com/suconghou/utilgo"
 )
 
-const reqMethod = "GET"
+const reqMethod = http.MethodGet
 
 type writeCounter struct {
 	readed   int64
