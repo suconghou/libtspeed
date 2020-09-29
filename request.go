@@ -34,13 +34,13 @@ func reqWithHost(host string, url string, method string, reqHeader http.Header, 
 	return req, nil
 }
 
-func benchmark(url string, thunk uint, timeout uint, transport *http.Transport) error {
+func benchmark(url string, chunk uint, timeout uint, transport *http.Transport) error {
 	resp, err := utilgo.Dohttp(url, reqMethod, nil, nil, timeout, transport)
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
-	total := int64(thunk)
+	total := int64(chunk)
 	if resp.StatusCode >= http.StatusOK && resp.StatusCode <= http.StatusIMUsed && resp.ContentLength > 0 && resp.ContentLength >= total {
 		var r io.Reader
 		if total == 0 {
@@ -55,7 +55,7 @@ func benchmark(url string, thunk uint, timeout uint, transport *http.Transport) 
 	return fmt.Errorf("%d:%s Length %d", resp.StatusCode, resp.Status, resp.ContentLength)
 }
 
-func benchmarkIP(ip string, host string, path string, https bool, thunk uint, timeout uint, transport *http.Transport) error {
+func benchmarkIP(ip string, host string, path string, https bool, chunk uint, timeout uint, transport *http.Transport) error {
 	client := utilgo.NewClient(timeout, transport)
 	url := fmt.Sprintf("%s://%s%s", utilgo.BoolString(https, "https", "http"), ip, path)
 	req, err := reqWithHost(host, url, reqMethod, nil, nil)
@@ -67,7 +67,7 @@ func benchmarkIP(ip string, host string, path string, https bool, thunk uint, ti
 		return err
 	}
 	defer resp.Body.Close()
-	total := int64(thunk)
+	total := int64(chunk)
 	if resp.StatusCode >= http.StatusOK && resp.StatusCode <= http.StatusIMUsed && resp.ContentLength > 0 && resp.ContentLength >= total {
 		var r io.Reader
 		if total == 0 {

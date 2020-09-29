@@ -15,14 +15,14 @@ import (
 var Log = log.New(os.Stdout, "", 0)
 
 // Run http speed test
-func Run(r io.Reader, thunk uint, timeout uint, transport *http.Transport) error {
-	thunk = thunk * 1024
+func Run(r io.Reader, chunk uint, timeout uint, transport *http.Transport) error {
+	chunk = chunk * 1024
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
 		url := scanner.Text()
 		if utilgo.IsURL(url, true) {
 			Log.Print(url)
-			err := benchmark(url, thunk, timeout, transport)
+			err := benchmark(url, chunk, timeout, transport)
 			if err != nil {
 				Log.Print(err)
 			} else {
@@ -34,14 +34,14 @@ func Run(r io.Reader, thunk uint, timeout uint, transport *http.Transport) error
 }
 
 // RunHost do ip speed test
-func RunHost(r io.Reader, host string, path string, https bool, thunk uint, timeout uint, transport *http.Transport) error {
-	thunk = thunk * 1024
+func RunHost(r io.Reader, host string, path string, https bool, chunk uint, timeout uint, transport *http.Transport) error {
+	chunk = chunk * 1024
 	scanner := bufio.NewScanner(r)
 	for scanner.Scan() {
 		ip := scanner.Text()
 		if net.ParseIP(ip) != nil {
 			Log.Print(ip)
-			err := benchmarkIP(ip, host, path, https, thunk, timeout, transport)
+			err := benchmarkIP(ip, host, path, https, chunk, timeout, transport)
 			if err != nil {
 				Log.Print(err)
 			} else {
