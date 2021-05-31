@@ -3,7 +3,6 @@ package libtspeed
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 
 	"github.com/suconghou/utilgo"
@@ -49,7 +48,7 @@ func benchmark(url string, chunk uint, timeout uint, transport *http.Transport) 
 		} else {
 			r = io.LimitReader(resp.Body, total)
 		}
-		_, err = io.Copy(ioutil.Discard, &writeCounter{origin: r, total: total, progress: utilgo.ProgressBar("", "", nil, nil)})
+		_, err = io.Copy(io.Discard, &writeCounter{origin: r, total: total, progress: utilgo.ProgressBar("", "", nil, nil)})
 		return err
 	}
 	return fmt.Errorf("%d:%s Length %d", resp.StatusCode, resp.Status, resp.ContentLength)
@@ -76,7 +75,7 @@ func benchmarkIP(ip string, host string, path string, https bool, chunk uint, ti
 		} else {
 			r = io.LimitReader(resp.Body, total)
 		}
-		_, err = io.Copy(ioutil.Discard, &writeCounter{origin: r, total: total, progress: utilgo.ProgressBar("", "", nil, nil)})
+		_, err = io.Copy(io.Discard, &writeCounter{origin: r, total: total, progress: utilgo.ProgressBar("", "", nil, nil)})
 		return err
 	}
 	return fmt.Errorf("%d:%s Length %d", resp.StatusCode, resp.Status, resp.ContentLength)
