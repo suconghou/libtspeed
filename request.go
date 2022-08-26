@@ -40,7 +40,7 @@ func benchmark(url string, chunk uint, timeout uint, transport *http.Transport) 
 	}
 	defer resp.Body.Close()
 	total := int64(chunk)
-	if resp.StatusCode >= http.StatusOK && resp.StatusCode <= http.StatusIMUsed && resp.ContentLength > 0 && resp.ContentLength >= total {
+	if resp.StatusCode/100 == 2 && resp.ContentLength > 0 && resp.ContentLength >= total {
 		var r io.Reader
 		if total == 0 {
 			r = resp.Body
@@ -67,7 +67,7 @@ func benchmarkIP(ip string, host string, path string, https bool, chunk uint, ti
 	}
 	defer resp.Body.Close()
 	total := int64(chunk)
-	if resp.StatusCode >= http.StatusOK && resp.StatusCode <= http.StatusIMUsed && resp.ContentLength > 0 && resp.ContentLength >= total {
+	if resp.StatusCode/100 == 2 && resp.ContentLength > 0 && resp.ContentLength >= total {
 		var r io.Reader
 		if total == 0 {
 			r = resp.Body
